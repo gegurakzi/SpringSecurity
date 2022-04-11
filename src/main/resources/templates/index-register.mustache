@@ -1,0 +1,27 @@
+{{>layout/header}}
+
+<section class="">
+    <div class="container py-5 w-100">
+        <div class="container py-5 w-50 justify-content-center">
+            <div class="row">
+                <h1 class="text-center">회원가입 페이지</h1>
+            </div>
+            <hr/>
+            <div class="row justify-content-center">
+                <form action="/register/process" method="POST" class="py-5 col-6 needs-validation" novalidate>
+                    <input class="form-control" type="text" name="username" placeholder="User name" required/> <br/>
+                    <div class="invalid-feedback"></div>
+                    <input class="form-control" type="password" name="password" placeholder="Password" required/> <br/>
+                    <div class="invalid-feedback"></div>
+                    <input class="form-control" type="email" name="email" placeholder="Email" required/> <br/>
+                    <div class="invalid-feedback"></div>
+                    <button type="submit" class="btn btn-primary float-end">회원가입</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{>script/formValidation}}
+
+{{>layout/footer}}
