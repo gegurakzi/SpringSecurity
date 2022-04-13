@@ -1,5 +1,7 @@
 package com.cos.security.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,4 +41,12 @@ public class IndexController {
         return "index-register";
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+    // SecurityConfig @EnableGlobalMethodSecurity 어노테이션의 securedEnabled 설정으로 인해 MANAGER, ADMIN만 접근가능
+    //@PreAuthorize("hasRole('ROLE_MANAGER')")
+    // SecurityConfig @EnableGlobalMethodSecurity 어노테이션의 prePostEnabled 설정으로 인해 ADMIN만 접근가능
+    @GetMapping("/info")
+    public @ResponseBody String adminInfo(){
+        return "개인정보";
+    }
 }
