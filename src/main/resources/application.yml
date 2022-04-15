@@ -40,12 +40,11 @@ spring:
               - public_profile
 
           naver:
-            client-id: ???
-            client-secret: ???
+            client-id: 3fTJQPADGjSsiuLWoa8w
+            client-secret: M0VniWsNj9
             scope:
               - name
               - email
-              - profile_image
             client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8000/login/oauth2/code/naver
