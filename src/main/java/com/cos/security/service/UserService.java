@@ -19,6 +19,8 @@ public class UserService {
     @Transactional
     public ResponseDto<String> register(User user){
         user.setRole("ROLE_USER");
+        user.setProvider("Default");
+        user.setProviderId(null);
         String rawPassword = user.getPassword();
         user.setPassword(bCryptPasswordEncoder.encode(rawPassword));
         userRepository.save(user);

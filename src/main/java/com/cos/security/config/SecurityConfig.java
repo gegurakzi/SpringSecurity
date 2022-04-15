@@ -1,5 +1,7 @@
 package com.cos.security.config;
 
+import com.cos.security.config.oauth.PrincipalOAuth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,9 +20,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public BCryptPasswordEncoder encodePWD(){
-        return new BCryptPasswordEncoder();
+    private PrincipalOAuth2UserService principalOAuth2UserService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public void setPrincipalOAuth2UserService(PrincipalOAuth2UserService principalOAuth2UserService){
+        this.principalOAuth2UserService = principalOAuth2UserService;
+    }
+    @Autowired
+    public void  setBCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder){
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -49,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //OAuth2 로그인
                 .and()
                     .oauth2Login()
-                    .loginPage("/login");
+                    .loginPage("/login")
+                    .userInfoEndpoint()
+                        .userService(principalOAuth2UserService);
     }
 }
