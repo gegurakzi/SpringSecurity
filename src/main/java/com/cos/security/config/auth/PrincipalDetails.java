@@ -9,17 +9,26 @@ package com.cos.security.config.auth;
 // Security Session => Authentication => UserDetails
 
 import com.cos.security.model.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-@RequiredArgsConstructor
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private final User user;
+    private User user;
+    private Map<String, Object> attributes;
+
+    public PrincipalDetails(User user){
+        this.user = user;
+    }
+    public PrincipalDetails(User user, Map<String, Object> attributes){
+        this.user = user;
+        this.attributes = attributes;
+    }
 
     // 해당 유저의 권한을 리턴하는 함수
     @Override
@@ -39,6 +48,8 @@ public class PrincipalDetails implements UserDetails {
         return user.getPassword();
     }
 
+    public User getUser() { return user; }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -56,5 +67,15 @@ public class PrincipalDetails implements UserDetails {
         // 회원이 1년간 활동이 없어 휴면계정으로 만들때
         // 현재시간-최근활동시간 > 1년 이라면 false로 바꿈
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
